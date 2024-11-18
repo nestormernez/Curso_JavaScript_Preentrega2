@@ -25,7 +25,7 @@ function acciones(opcion) {
         alert(altaProducto())
         console.log(arrayProductos)
     } else if (opcion === 2) { // Baja
-        alert(bajaProducto(prompt("Ingrese el ID del producto a eliminar:")))
+        alert(bajaProducto(Number(prompt("Ingrese el ID del producto a eliminar:"))))
         console.log(arrayProductos)
     } else if (opcion ===3) { // Listado
         alert("LISTA PRODUCTOS")
