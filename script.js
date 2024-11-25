@@ -5,7 +5,7 @@ function menu(estado = 0) {
     if (estado === 5) {
         mensajeMenu = "Ingrese una opción válida para continuar:"
     }
-    let opcion = Number(prompt("Hola Profesor/Tutor esta es mi preentrega nro. 2.\n\n" + mensajeMenu + "\n\n[1] - Alta de Producto 👍\n[2] - Baja de Producto 👎\n[3] - Lista de Precios 🛒\n[4] - Salir 🚶"))
+    let opcion = Number(prompt("Hola Profesor/Tutor esta es mi segunda preentrega.\n\n" + mensajeMenu + "\n\n[1] - Alta de Producto 👍\n[2] - Baja de Producto 👎\n[3] - Listar Productos 🛒\n[4] - Salir 🚶"))
     if (opcion === 1) {
         acciones(opcion)
     } else if (opcion === 2) {
@@ -22,24 +22,25 @@ function menu(estado = 0) {
 // Función con acciones del menú
 function acciones(opcion) {
     if (opcion ===1) { // Alta
-        alert(altaProducto())
+        let id = obtenerSiguienteId(arrayProductos)
+        let nombre = prompt("Ingrese Descripción")
+        let precio = prompt("Ingrese Precio de Costo")
+        let stock = prompt("Ingrese Stock")
+        let categoria = prompt("Ingrese Categoria")
+        let margen = prompt("Ingrese Margen de Ganancia")
+        alert(altaProducto(id, nombre, precio, stock, categoria, margen))
         console.log(arrayProductos)
+        menu(0)
     } else if (opcion === 2) { // Baja
         alert(bajaProducto(Number(prompt("Ingrese el ID del producto a eliminar:"))))
         console.log(arrayProductos)
-    } else if (opcion ===3) { // Listado
-        alert("LISTA PRODUCTOS")
-        // let productosFiltrados = arrayProductos.filter(producto => producto.categoria === 'deportes')
-        // console.log(productosFiltrados[1].nombre)
+        menu(0)
+    } else if (opcion ===3) { // Listado y agregar al carrito
+        alert("Listado de Productos: \n" + listarProductos(arrayProductos))
+        menu(0)
     } else { // Salir
         alert("Hasta la próxima 👋")
     }
-}
-
-// Función que realiza el alta de un producto
-function altaProducto(id = obtenerSiguienteId(arrayProductos), nombre = prompt("Ingrese Descripción"), precio = prompt("Ingrese Precio de Costo"), stock = prompt("Ingrese Stock"), categoria = prompt("Ingrese Categoria"), margen = prompt("Ingrese Margen de Ganancia")) {
-    arrayProductos.push({ id: id, nombre: nombre, precio: precio, stock: stock, categoria: categoria, margen_ganancia: margen })
-    return("Alta Satisfactoria")
 }
 
 // Función para obtener el ID más alto
@@ -53,19 +54,51 @@ function obtenerSiguienteId(arrayProductos) {
     return maxId + 1
 }
 
+// Función que realiza el alta de un producto
+function altaProducto(id, nombre, precio, stock, categoria, margen) {
+    arrayProductos.push({ id: id, nombre: nombre, precio: precio, stock: stock, categoria: categoria, margen_ganancia: margen })
+    return("Alta Satisfactoria")
+}
+
 // Función que realiza la eliminación de un producto
 function bajaProducto(id) {
-    console.log(id)
-    const index = arrayProductos.find(producto => producto.id === id)
-
-    if (index !== -1) {
-        arrayProductos.splice(index, 1); // Elimino el producto del array
-        // return `Producto con ID ${id} eliminado satisfactoriamente.`
-        //return 'El producto: ' + index.nombre + '\nId: ' + id + '\n Ha sido eliminado satisfactoriamente.'
+    const prodBuscado = arrayProductos.findIndex(producto => producto.id === id)
+    console.log(prodBuscado)
+    if (prodBuscado !== -1) {
+        arrayProductos.splice(prodBuscado, 1)// Elimino el producto del array
         return 'Producto eliminado correctamente.'
     } else {
         return 'El ID del producto ingresado no existe.'
     }
+}
+
+// Función para mostrar todos los elementos del array
+function mostrarCadaElemento (array,fn) {
+    for (const elemento of array){
+        elemento[id] = new Producto (elemento.id, elemento.nombre, elemento.precioCosto, elemento.stock, elemento.categoria, elemento.margen)
+        fn(Producto.descripcion)
+    }   
+}
+
+function listarProductos(lista) {
+    return lista.map(elemento => "ID: " + elemento.id + " - " + elemento.nombre.toUpperCase()).join("\n")
+}
+
+
+// Clase para sacar calcular el precio de venta al público
+// Agregar Métodos a la Clase
+class Producto {
+	constructor (id, descripcion, precioCosto, stock, categoria ,margen) {
+        this.id = id
+		this.descripcion = descripcion
+		this.precioCosto = precioCosto
+        this.stock = stock
+        this.categoria = categoria
+        this.margen = margen
+    }
+	precioVenta() {
+        // this.precioVenta = this.precioCosto * Number(1,this.margen)
+	} 
 }
 
 // Array de productos con productos precargados
